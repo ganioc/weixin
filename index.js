@@ -1,11 +1,18 @@
-var http = require('http');
+/**
+ * @fileOverview
+ * @name index.js
+ * @author Ganioc Yang: <ganioc.yang@gamil.com>
+ * @license MIT
+ */
+
+var http    = require('http');
 var express = require('express');
 
 var cookieParser = require('cookie-parser');
-
-var bodyParser = require('body-parser');
+var bodyParser   = require('body-parser');
 var errorHandler = require('errorhandler');
 
+// the config file
 var config = require('./lib/config');
 
 var app = express();
@@ -21,9 +28,11 @@ app.engine('html', require('ejs').renderFile);
 app.use(cookieParser());
 
 app.use(bodyParser.json());
+
+// this is used to decode req.body in POST
 app.use(bodyParser.urlencoded({extended: true}));
 
-
+//
 require('./lib/store').init(app);
 require('./lib/login')(app);
 require('./lib/weixin').init(app);
