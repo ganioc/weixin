@@ -1,0 +1,7 @@
+# ignore pattern
+*~
+
+# ignore folders, files
+node_modules/
+Thumbs.db
+
