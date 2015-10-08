@@ -39,22 +39,33 @@ require('./lib/weixin').init(app);
 require('./lib/account')(app);
 require('./lib/games')(app);
 require('./lib/zone')(app);
+require('./lib/articles')(app);
+
+var store = require('./lib/store');
+var db = store.db;
+var CallbackFind = store.callbackFind;
 
 app.get('/', function(req, res){
   console.log('into root');
 //  res.send('weixin ok');
-  res.render(
-    'index',
-    {
-      title: config.WEBSITE_NAME,
-      path: config.PUBLIC_PATH
 
-    }
+  // if we want to add articles part, retrieve from the database
+  db.articles.find(
+    {},
+    CallbackFind(function(doc){
+      res.render(
+	'index',
+	{
+	  title: config.WEBSITE_NAME,
+	  path: config.PUBLIC_PATH,
+	  articles: doc || []
+	}
+      );
+    })
   );
+
+
 });
-
-
-
 
 // development error handler
 // will print stacktrace
